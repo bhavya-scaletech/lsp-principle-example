@@ -1,4 +1,4 @@
-export abstract class NotificationService {
+export abstract class Notification {
   recipient: string;
   message: string;
 
@@ -10,7 +10,7 @@ export abstract class NotificationService {
   abstract send(): void;
 }
 
-export class EmailNotification extends NotificationService {
+export class EmailNotification extends Notification {
   constructor(recipient: string, message: string) {
     super(recipient, message);
   }
@@ -20,7 +20,7 @@ export class EmailNotification extends NotificationService {
   }
 }
 
-export class SmsNotification extends NotificationService {
+export class SmsNotification extends Notification {
   constructor(recipient: string, message: string) {
     super(recipient, message);
   }
@@ -57,13 +57,17 @@ export class EmailNotificationWithAttachment extends EmailNotification {
   }
 }
 
-const notifications: NotificationService[] = [
+export function sendNotifications(notifications: Notification[]) {
+  notifications.forEach((notification) => {
+    notification.send();
+  });
+}
+
+const notifications:Notification[] = [
   new EmailNotification("user@example.com", "Hello!"),
   new SmsNotification("1234567890", "Hello!"),
   new EmailNotificationWithAttachment("user@example.com", "Hello!", "file.pdf"),
   new EmailNotificationWithAttachment("user@example.com", "Hello!"),
 ];
 
-notifications.forEach((notification) => {
-  notification.send();
-});
+sendNotifications(notifications);
