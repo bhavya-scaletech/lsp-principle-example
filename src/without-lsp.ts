@@ -31,9 +31,9 @@ export class SmsNotification extends Notification {
 }
 
 export class EmailNotificationWithAttachment extends EmailNotification {
-  attachment: string | undefined;
+  attachment: string | null;
 
-  constructor(recipient: string, message: string, attachment?: string) {
+  constructor(recipient: string, message: string, attachment: string | null = null) {
     super(recipient, message);
     this.attachment = attachment;
   }
@@ -58,7 +58,7 @@ export function sendNotifications(notifications: Notification[]) {
   });
 }
 
-const notifications:Notification[] = [
+const notifications: Notification[] = [
   new EmailNotification("user@example.com", "Hello!"),
   new SmsNotification("1234567890", "Hello!"),
   new EmailNotificationWithAttachment("user@example.com", "Hello!", "file.pdf"),
